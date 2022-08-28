@@ -3,12 +3,12 @@ import consign from 'consign';
 import helmet from 'helmet';
 import cors from 'cors';
 
-export const app = express();
+export const serverExpress = express();
  
-app.use(express.json());
-app.use(helmet());
-app.use(cors());
-app.use(json());
+serverExpress.use(express.json());
+serverExpress.use(helmet());
+serverExpress.use(cors());
+serverExpress.use(json());
 
-consign({cwd:'src'}).include('routers').into(app);
+consign({cwd:'src'}).include('routers').into(serverExpress);
 
