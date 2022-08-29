@@ -1,3 +1,4 @@
+import { serverWss } from './websocket';
 import { serverMqtt } from './mqttMosca';
 import { serverExpress } from './express';
 import mqtt from 'mqtt';
@@ -12,6 +13,21 @@ serverMqtt.on('ready', ()=>{
     console.log(`server mqtt running on port ${process.env.PORT_MQTT}`);
 })
 
+serverWss.on('listening',()=>{
+    console.log(`server web socket running on port 8080`);
+})
+
+//Ações do web socket
+serverWss.on('connection',(ws)=>{
+    console.log('Algum cliente foi conectado ao meu webservice!');
+    
+    ws.on('message',(data,isBinary)=>{
+        console.log("Recebido uma mensagem no meu server web socket: ",data.toString());
+    })
+})
+
+
+//Ações do mqtt
 export const clientMqtt = mqtt.connect('mqtt://localhost',{port:1884});
 
 clientMqtt.on('connect',()=>{
