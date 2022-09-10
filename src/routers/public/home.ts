@@ -4,7 +4,7 @@ import { Application, Request , Response} from "express";
 import { WebSocket } from 'ws';
 
 export = (app:Application) =>{
-    app.get('public/home', (req: Request, res: Response) => {
+    app.get('/home', (req: Request, res: Response) => {
         let message = <string>req.query.message;
         clientMqtt.publish('teste',message,()=>{
           console.log("Mensagem publicada!");
