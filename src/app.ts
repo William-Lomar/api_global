@@ -5,7 +5,7 @@ import mqtt from 'mqtt';
 
 require('dotenv').config();
 
-serverExpress.listen(process.env.PORT_EXPRESS, () => {
+const serverExpressOn = serverExpress.listen(process.env.PORT_EXPRESS, () => {
     console.log(`server express running on port ${process.env.PORT_EXPRESS}`);
 });  
 
@@ -37,3 +37,21 @@ clientMqtt.on('connect',()=>{
         console.log("Recebi a mensagem: ",message.toString());
     })
 })
+
+
+
+
+/** 
+* O sinal SIGTERM é um sinal genérico usado para causar o 
+término do programa *. Ao contrário do SIGKILL , este sinal pode ser bloqueado, 
+* manipulado e ignorado. É a maneira normal de pedir educadamente que um 
+programa * termine. O comando shell kill gera 
+* SIGTERM por padrão. 
+*/ 
+process.on('SIGTERM', () => { 
+    serverExpressOn.close(() => { 
+        console.log('Servidor Fechado: Processo Finalizado!'); 
+    }); 
+});
+
+

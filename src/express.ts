@@ -1,5 +1,7 @@
+import { NextFunction } from 'express';
 import express, { json } from 'express';
-import consign from 'consign';
+const consign = require('consign');
+
 import helmet from 'helmet';
 import cors from 'cors';
 
@@ -12,3 +14,9 @@ serverExpress.use(json());
 
 consign({cwd:'src'}).include('routers').into(serverExpress);
 
+serverExpress.use((error:any, req:any, res:any, next:any) => {
+  // Seta o HTTP Status Code
+  res.status(error.status)
+  // Envia a resposta
+  res.json({ message: error.message })
+})
