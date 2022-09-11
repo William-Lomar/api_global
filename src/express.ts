@@ -20,7 +20,7 @@ serverExpress.use('/private/*',(req:Request, res:Response, next:NextFunction)=>{
     if(login == LOGIN){
       next();
     }else{
-      next(createError(500,'login incorreto ao acessar rota privada')) ;
+      next(createError(HTTP_ERRORS.ACESSO_NAO_AUTORIZADO,'login incorreto ao acessar rota privada')) ;
     }
 })
 
@@ -32,3 +32,10 @@ serverExpress.use((error:any, req:Request, res:Response, next:NextFunction) => {
   // Envia a resposta
   res.json({ message: error.message })
 })
+
+export enum HTTP_ERRORS{
+  ACESSO_NAO_AUTORIZADO = 401,
+  ROTA_NAO_ENCONTRADA = 404,
+  ERRO_INTERNO = 500, //Erro não mapeado
+  ERRO_API_EXTERNA = 403 //Erro ao realizar uma solicitação externa
+}
